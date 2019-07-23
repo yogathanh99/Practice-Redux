@@ -1,26 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import { connect } from 'react-redux'
 
-function App() {
+import * as actionTypes from './store/actions'
+import './App.css'
+
+const App = props => {
+  const { reduxCount, onDecrement, onIncrement } = props
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <button onClick={onIncrement}>+</button>
+      <p>{reduxCount}</p>
+      <button onClick={onDecrement}>-</button>
     </div>
-  );
+  )
 }
 
-export default App;
+const mapStateToProps = ({ count }) => ({
+  reduxCount: count
+})
+
+const mapDispatchToProps = dispatch => ({
+  onIncrement: () => dispatch({ type: actionTypes.INCREMENT }),
+  onDecrement: () => dispatch({ type: actionTypes.DECREMENT })
+})
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App)
